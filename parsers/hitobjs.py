@@ -1,4 +1,4 @@
-def findHitObject(bMap):
+def findHitObject(bMap, lastObject):
     """
     Parses a beatmap file to extract hit objects and their properties.
 
@@ -74,17 +74,23 @@ def findHitObject(bMap):
 
             # Find the current beat length and slider velocity multiplier
             beatLength = 500.0  # Default beat length
+            currentSvMultiplier = sliderMultiplier  # Default slider velocity multiplier
             for tp in timingPoints:
                 if time >= tp[0]:
                     if tp[2] == 1:  # Inherited timing point
                         beatLength = tp[1]
                     else:  # Uninherited timing point
-                        currentSvMultiplier = -tp[1] / 100.0
+                        currentSvMultiplier = 1.0 + (-tp[1] / 100.0)
                 else:
                     break
 
-            # Calculate holdTime using the formula
-            holdTime = int((length / (sliderMultiplier * 100 * currentSvMultiplier)) * beatLength * slides)
+            # Calculate holdTime based on the next object's start time
+            if hitObjectsSection.index(line) + 1 < len(hitObjectsSection):  # Check if there is a next object
+                nextParts = hitObjectsSection[hitObjectsSection.index(line) + 1].split(",")
+                nextObjectStart = int(nextParts[2])  # Start time of the next object
+                holdTime = (nextObjectStart - time) * 0.8  # Shorten by 20%
+            else:
+                holdTime = (lastObject - time) * 1.1  # Extend by 10%
         elif objType & 8:  # Spinner
             objId = 2
             endTime = int(parts[5])  # End time for spinner
