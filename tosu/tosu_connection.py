@@ -121,17 +121,17 @@ class TosuConnection:
         taiko = keybinds["taiko"]
         quickRetry = keybinds["quickRetry"]
         return tosu_classes.Keybinds(
-            osu=tosu_classes.OsuKeybinds(
+            osu=tosu_classes.Keybinds.Osu(
                 k1=osu["k1"],
                 k2=osu["k2"],
                 smokeKey=osu["smokeKey"]
             ),
-            fruits=tosu_classes.FruitsKeybinds(
+            fruits=tosu_classes.Keybinds.Fruits(
                 k1=fruits["k1"],
                 k2=fruits["k2"],
                 Dash=fruits["Dash"]
             ),
-            taiko=tosu_classes.TaikoKeybinds(
+            taiko=tosu_classes.Keybinds.Taiko(
                 innerLeft=taiko["innerLeft"],
                 innerRight=taiko["innerRight"],
                 outerLeft=taiko["outerLeft"],
