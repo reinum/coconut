@@ -37,8 +37,8 @@ class TosuConnection:
             raise ValueError("Cannot get state from precise connection.")
         if not self.data:
             raise ValueError("No data received yet.")
-        json = json.loads(self.data)
-        state = json["state"]["number"]
+        jsondata = json.loads(self.data)
+        state = jsondata["state"]["number"]
         if state == 0:
             return tosu_classes.OsuState.Menu
         elif state == 2:
@@ -52,8 +52,8 @@ class TosuConnection:
             raise ValueError("No data received yet.")
         if not self.isPrecise:
             raise ValueError("Cannot get precise time from non-precise connection.")
-        json = json.loads(self.data)
-        return json["currentTime"]
+        jsondata = json.loads(self.data)
+        return jsondata["currentTime"]
 
 
     async def getResolution(self):
@@ -62,8 +62,8 @@ class TosuConnection:
             raise ValueError("No data received yet.")
         if self.isPrecise:
             raise ValueError("Cannot get resolution from precise connection.")
-        json = json.loads(self.data)
-        resolution = json["resolution"]
+        jsondata = json.loads(self.data)
+        resolution = jsondata["resolution"]
         return tosu_classes.Resolution(
             fullscreen=resolution["fullscreen"],
             width=resolution["width"],
@@ -78,8 +78,8 @@ class TosuConnection:
             raise ValueError("No data received yet.")
         if self.isPrecise:
             raise ValueError("Cannot get mouse settings from precise connection.")
-        json = json.loads(self.data)
-        mouse = json["mouse"]
+        jsondata = json.loads(self.data)
+        mouse = jsondata["mouse"]
         return tosu_classes.Mouse(
             rawInput=mouse["rawInput"],
             disableButtons=mouse["disableButtons"],
@@ -93,8 +93,8 @@ class TosuConnection:
             raise ValueError("No data received yet.")
         if self.isPrecise:
             raise ValueError("Cannot get audio settings from precise connection.")
-        json = json.loads(self.data)
-        audio = json["audio"]
+        jsondata = json.loads(self.data)
+        audio = jsondata["audio"]
         volume = audio["volume"]
         return tosu_classes.Audio(
             ignoreBeatmapSounds=audio["ignoreBeatmapSounds"],
@@ -112,8 +112,8 @@ class TosuConnection:
             raise ValueError("No data received yet.")
         if self.isPrecise:
             raise ValueError("Cannot get keybinds from precise connection.")
-        json = json.loads(self.data)
-        keybinds = json["keybinds"]
+        jsondata = json.loads(self.data)
+        keybinds = jsondata["keybinds"]
         osu = keybinds["osu"]
         fruits = keybinds["fruits"]
         taiko = keybinds["taiko"]
@@ -144,8 +144,8 @@ class TosuConnection:
             raise ValueError("No data received yet.")
         if self.isPrecise:
             raise ValueError("Cannot get profile from precise connection.")
-        json = json.loads(self.data)
-        profile = json["profile"]
+        jsondata = json.loads(self.data)
+        profile = jsondata["profile"]
         status = profile["status"]
         mode = profile["mode"]
         countryCode = profile["countryCode"]
@@ -179,8 +179,8 @@ class TosuConnection:
             raise ValueError("No data received yet.")
         if self.isPrecise:
             raise ValueError("Cannot get paths from precise connection.")
-        json = json.loads(self.data)
-        paths = json["directPath"]
+        jsondata = json.loads(self.data)
+        paths = jsondata["directPath"]
         return tosu_classes.DirectPath(
             beatmapFile=paths["beatmapFile"],
             beatmapBackground=paths["beatmapBackground"],
