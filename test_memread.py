@@ -11,15 +11,19 @@ interception.auto_capture_devices()
 
 conn = tosu.Tosu("ws://localhost:24050/websocket/v2")
 
+# Create a semaphore with a limit of 1
+semaphore = threading.Semaphore(1)
+
 def tap(key, holdtime):
-    interception.key_down(key)
-    asyncio.sleep(holdtime / 1000)  # Convert milliseconds to seconds
-    interception.key_up(key)
+    with semaphore:  # Acquire the semaphore
+        interception.key_down(key)
+        asyncio.sleep(holdtime / 1000)  # Convert milliseconds to seconds
+        interception.key_up(key)
 
 async def relax(hitObjs, lastObject, K1, K2):
     currentTime = 0
     while currentTime < lastObject:
-        currentTime = await conn.PreciseConnection.preciseCurrentTime()
+        # currentTime = await conn.PreciseConnection.preciseCurrentTime()
         for obj in hitObjs:
             x, y, objTime, objId, holdTime = obj
             timeDifference = objTime - currentTime
@@ -31,6 +35,7 @@ async def relax(hitObjs, lastObject, K1, K2):
                     pass
                 elif objId == 2:  # Spinner
                     pass
+                currentTime = objTime
                 break
 
 async def waitForMap():
@@ -49,7 +54,7 @@ async def waitForMap():
     # Parse needed data from the beatmap
     hitObjects = hitobjs.findHitObject(beatmap)
     beatmapTime = await conn.Connection.getBeatmapTime()
-    osuKeys = (await conn.Connection.getKeybinds()).Osu
+    osuKeys = (await conn.Connection.getKeybinds()).osu
     K1 = osuKeys.k1
     K2 = osuKeys.k2
 
