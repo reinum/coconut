@@ -29,6 +29,7 @@ class TosuConnection:
             print(f"Connected to {self.uri}")
         except Exception as e:
             print(f"Failed to connect: {e}")
+            raise e
 
     async def getState(self):
         self.data = self.websocket.recv()
