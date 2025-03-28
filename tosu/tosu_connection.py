@@ -212,9 +212,9 @@ class TosuConnection:
             raise ValueError("Cannot get beatmap time from precise connection.")
         jsondata = json.loads(self.data)
         return tosu_classes.BeatmapTime(
-            live=jsondata["time"]["live"],
-            firstObject=jsondata["time"]["firstObject"],
-            lastObject=jsondata["time"]["lastObject"]
+            live=jsondata>["beatmap"]["time"]["live"],
+            firstObject=jsondata["beatmap"]["time"]["firstObject"],
+            lastObject=jsondata["beatmap"]["time"]["lastObject"]
         )
     async def close(self):
         if self.websocket:
