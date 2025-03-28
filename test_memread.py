@@ -21,14 +21,21 @@ async def relax(hitObjs, firstObject, lastObject, K1, K2):
     currentTime = 0
     processedObjects = set()  # Keep track of processed hit objects
     keyToTapWith = K1
+    realIndex = 0
 
-    while currentTime < 100:
+    # Wait until the game time is synchronized
+    while currentTime < firstObject - 100:  # Wait until we're close to the first object
         currentTime = await conn.PreciseConnection.preciseCurrentTime()
+        await asyncio.sleep(0.01)
 
+    # Start processing hit objects
     while currentTime < lastObject:
         currentTime = await conn.PreciseConnection.preciseCurrentTime()
-        for obj in hitObjs:
+        for index, obj in enumerate(hitObjs):  # Use enumerate to get the index
             x, y, objTime, objId, holdTime = obj
+
+            if index > realIndex+1:
+                continue
 
             # Skip already processed objects
             if objTime in processedObjects:
@@ -36,10 +43,11 @@ async def relax(hitObjs, firstObject, lastObject, K1, K2):
 
             timeDifference = objTime - currentTime
             if -10 <= timeDifference <= 10:  # 10ms tolerance
-                print(f"Hit object at {x}, {y}, holdtime: {holdTime}, time difference: {timeDifference}")
+                print(f"Processing object at index {index}: ({x}, {y}), holdtime: {holdTime}, time difference: {timeDifference}")
                 threading.Thread(target=tap, args=(keyToTapWith, holdTime)).start()
                 processedObjects.add(objTime)  # Mark this object as processed
                 keyToTapWith = K1 if keyToTapWith == K2 else K2
+                realIndex += 1
                 break
 
 async def waitForMap():
