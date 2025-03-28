@@ -32,7 +32,7 @@ class TosuConnection:
             raise e
 
     async def getState(self):
-        self.data = self.websocket.recv()
+        self.data = await self.websocket.recv()
         if self.isPrecise:
             raise ValueError("Cannot get state from precise connection.")
         if not self.data:
@@ -47,7 +47,7 @@ class TosuConnection:
             raise ValueError(f"Unknown state: {state}")
         
     async def preciseCurrentTime(self):
-        self.data = self.websocket.recv()
+        self.data = await self.websocket.recv()
         if not self.data:
             raise ValueError("No data received yet.")
         if not self.isPrecise:
@@ -57,7 +57,7 @@ class TosuConnection:
 
 
     async def getResolution(self):
-        self.data = self.websocket.recv()
+        self.data = await self.websocket.recv()
         if not self.data:
             raise ValueError("No data received yet.")
         if self.isPrecise:
@@ -73,7 +73,7 @@ class TosuConnection:
         )
 
     async def getMouse(self):
-        self.data = self.websocket.recv()
+        self.data = await self.websocket.recv()
         if not self.data:
             raise ValueError("No data received yet.")
         if self.isPrecise:
@@ -88,7 +88,7 @@ class TosuConnection:
         )
 
     async def getAudio(self):
-        self.data = self.websocket.recv()
+        self.data = await self.websocket.recv()
         if not self.data:
             raise ValueError("No data received yet.")
         if self.isPrecise:
@@ -107,7 +107,7 @@ class TosuConnection:
             universalOffset=audio["universalOffset"]
         )
     async def getKeybinds(self):
-        self.data = self.websocket.recv()
+        self.data = await self.websocket.recv()
         if not self.data:
             raise ValueError("No data received yet.")
         if self.isPrecise:
@@ -139,7 +139,7 @@ class TosuConnection:
         )
 
     async def getProfile(self):
-        self.data = self.websocket.recv()
+        self.data = await self.websocket.recv()
         if not self.data:
             raise ValueError("No data received yet.")
         if self.isPrecise:
@@ -174,7 +174,7 @@ class TosuConnection:
         )
 
     async def getPaths(self):
-        self.data = self.websocket.recv()
+        self.data = await self.websocket.recv()
         if not self.data:
             raise ValueError("No data received yet.")
         if self.isPrecise:
