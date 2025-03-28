@@ -90,3 +90,11 @@ class Profile:
     countryCode: CountryCode
     backgroundColour: str
 
+@dataclass
+class DirectPath:
+    beatmapFile: str
+    beatmapBackground: str
+    beatmapAudio: str
+    beatmapFolder: str
+    skinFolder: str
+

@@ -172,8 +172,21 @@ class TosuConnection:
             backgroundColour=profile["backgroundColour"],
         )
 
-
-
+    async def getPaths(self):
+        self.data = self.websocket.recv()
+        if not self.data:
+            raise ValueError("No data received yet.")
+        if self.isPrecise:
+            raise ValueError("Cannot get paths from precise connection.")
+        json = json.loads(self.data)
+        paths = json["directPath"]
+        return tosu_classes.DirectPath(
+            beatmapFile=paths["beatmapFile"],
+            beatmapBackground=paths["beatmapBackground"],
+            beatmapAudio=paths["beatmapAudio"],
+            beatmapFolder=paths["beatmapFolder"],
+            skinFolder=paths["skinFolder"]
+        )
     async def close(self):
         if self.websocket:
             await self.websocket.close()
