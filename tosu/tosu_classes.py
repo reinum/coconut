@@ -5,6 +5,7 @@ class OsuState:
     # todo: add more lmao
     Menu: int = 0
     Game: int = 2
+    SongSelect: int = 5
 
 @dataclass
 class Resolution:

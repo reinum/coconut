@@ -43,6 +43,8 @@ class TosuConnection:
             return tosu_classes.OsuState.Menu
         elif state == 2:
             return tosu_classes.OsuState.Game
+        elif state == 5:
+            return tosu_classes.OsuState.SongSelect
         else:
             raise ValueError(f"Unknown state: {state}")
         
