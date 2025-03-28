@@ -3,7 +3,7 @@ from tosu import tosu_classes
 from parsers import hitobjs
 import asyncio
 
-conn = tosu.Tosu("https://localhost:20450/websocket/v2")
+conn = tosu.Tosu("ws://localhost:24050/websocket/v2")
 
 async def relax(hit_objs, totalMapLength):
     print("wowowowo")
