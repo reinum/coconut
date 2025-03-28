@@ -123,3 +123,5 @@ class Play:
     class Mods:
         number: int
         name: str
+    mode = field(default_factory=Mode)
+    mods = field(default_factory=Mods)
