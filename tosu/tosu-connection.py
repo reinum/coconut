@@ -2,6 +2,16 @@ import websockets
 import json
 from tosu import tosu_classes
 
+class Tosu:
+    def __init__(self, baseUrl):
+        self.Connection = TosuConnection(baseUrl)
+        self.PreciseConnection = TosuConnection(baseUrl + "/precise")
+    
+    def closeAll(self):
+        self.Connection.close()
+        self.PreciseConnection.close()
+
+
 class TosuConnection:
     def __init__(self, uri):
         self.uri = uri
@@ -154,7 +164,7 @@ class TosuConnection:
             backgroundColour=profile["backgroundColour"],
         )
 
-    
+
 
     async def close(self):
         if self.websocket:
