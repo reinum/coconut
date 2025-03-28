@@ -38,22 +38,22 @@ class Audio:
 class Keybinds:
     @dataclass
     class Osu:
-        k1: str = "O"
-        k2: str = "P"
-        smokeKey: str = "S"
+        k1: str 
+        k2: str 
+        smokeKey: str 
 
     @dataclass
     class Fruits:
-        k1: str = "Left"
-        k2: str = "Right"
-        Dash: str = "LeftShift"
+        k1: str 
+        k2: str 
+        Dash: str 
 
     @dataclass
     class Taiko:
-        innerLeft: str = "X"
-        innerRight: str = "C"
-        outerLeft: str = "Z"
-        outerRight: str = "V"
+        innerLeft: str 
+        innerRight: str 
+        outerLeft: str 
+        outerRight: str 
 
     osu: Osu = field(default_factory=Osu)
     fruits: Fruits = field(default_factory=Fruits)
