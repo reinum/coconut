@@ -190,6 +190,20 @@ class TosuConnection:
             beatmapFolder=paths["beatmapFolder"],
             skinFolder=paths["skinFolder"]
         )
+    async def getFolders(self):
+        self.data = await self.websocket.recv()
+        if not self.data:
+            raise ValueError("No data received yet.")
+        if self.isPrecise:
+            raise ValueError("Cannot get folders from precise connection.")
+        jsondata = json.loads(self.data)
+        folders = jsondata["folders"]
+        return tosu_classes.Folders(
+            gameFolder=folders["game"],
+            skin=folders["skin"],
+            songFolder=folders["songs"],
+            beatmap=folders["beatmaps"]
+        )
     async def close(self):
         if self.websocket:
             await self.websocket.close()

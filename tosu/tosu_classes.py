@@ -99,3 +99,9 @@ class DirectPath:
     beatmapFolder: str
     skinFolder: str
 
+@dataclass
+class Folders:
+    gameFolder: str
+    skin: str
+    songFolder: str
+    beatmap: str
