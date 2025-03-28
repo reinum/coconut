@@ -7,9 +7,13 @@ class Tosu:
         self.Connection = TosuConnection(baseUrl)
         self.PreciseConnection = TosuConnection(baseUrl + "/precise")
     
-    def closeAll(self):
-        self.Connection.close()
-        self.PreciseConnection.close()
+    async def connectAll(self):
+        await self.Connection.connect()
+        await self.PreciseConnection.connect()
+
+    async def closeAll(self):
+        await self.Connection.close()
+        await self.PreciseConnection.close()
 
 
 class TosuConnection:
