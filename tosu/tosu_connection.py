@@ -96,7 +96,7 @@ class TosuConnection:
         if self.isPrecise:
             raise ValueError("Cannot get audio settings from precise connection.")
         jsondata = json.loads(self.data)
-        audio = jsondata["audio"]
+        audio = jsondata["settings"]["audio"]
         volume = audio["volume"]
         return tosu_classes.Audio(
             ignoreBeatmapSounds=audio["ignoreBeatmapSounds"],
@@ -115,7 +115,7 @@ class TosuConnection:
         if self.isPrecise:
             raise ValueError("Cannot get keybinds from precise connection.")
         jsondata = json.loads(self.data)
-        keybinds = jsondata["keybinds"]
+        keybinds = jsondata["settings"]["keybinds"]
         osu = keybinds["osu"]
         fruits = keybinds["fruits"]
         taiko = keybinds["taiko"]
