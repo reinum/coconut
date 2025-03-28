@@ -7,9 +7,14 @@ import os
 
 conn = tosu.Tosu("ws://localhost:24050/websocket/v2")
 
-async def relax(hitObjs, totalMapLength):
-    print("wowowowo")
-    
+async def relax(hitObjs, lastObject):
+    currentTime = 0
+    while currentTime < lastObject:
+        currentTime = await conn.PreciseConnection.preciseCurrentTime()
+        for obj in hitObjs:
+            if obj[2] <= currentTime <= obj[2] + obj[4]:
+                print(f"Hit object at {obj[0]}, {obj[1]}")
+                break
 
 async def waitForMap():
     await conn.connectAll()
@@ -17,15 +22,18 @@ async def waitForMap():
     # Get the game folder
     folders = await conn.Connection.getFolders()
 
-    while True:
+    state = await conn.Connection.getState()
+    while state != tosu_classes.OsuState.Game:
         state = await conn.Connection.getState()
-        if state == tosu_classes.OsuState.Game:
-            # Get the current map
-            directPath = await conn.Connection.getPaths()
-            beatmap = os.path.join(folders.songFolder, directPath.beatmapFile)
+    # Get the current map
+    directPath = await conn.Connection.getPaths()
+    beatmap = os.path.join(folders.songFolder, directPath.beatmapFile)
 
-            # Get the game folder
-            hitObjects = hitobjs.findHitObject(beatmap)
-            await relax(hitObjects, 1)
+    # Parse needed data from the beatmap
+    hitObjects = hitobjs.findHitObject(beatmap)
+    beatmapTime = await conn.Connection.getBeatmapTime()
+
+    await relax(hitObjects, beatmapTime.lastObject)
+
 
 asyncio.run(waitForMap())
