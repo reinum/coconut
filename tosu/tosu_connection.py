@@ -202,7 +202,7 @@ class TosuConnection:
             gameFolder=folders["game"],
             skin=folders["skin"],
             songFolder=folders["songs"],
-            beatmap=folders["beatmaps"]
+            beatmap=folders["beatmap"]
         )
     async def close(self):
         if self.websocket:
