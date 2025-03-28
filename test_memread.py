@@ -5,17 +5,17 @@ import asyncio
 
 conn = tosu.Tosu("ws://localhost:24050/websocket/v2")
 
-async def relax(hit_objs, totalMapLength):
+async def relax(hitObjs, totalMapLength):
     print("wowowowo")
     
 
-async def wait_for_map():
+async def waitForMap():
     await conn.connectAll()
     while True:
         state = await conn.Connection.getState()
         if state == tosu_classes.OsuState.Game:
-            map = await conn.Connection.getPaths()
-            hit_objs = hitobjs.find_hitobject(map)
-            await relax(hit_objs)
+            directPath = await conn.Connection.getPaths()
+            hitObjects = hitobjs.find_hitobject(map)
+            await relax(hitObjects)
 
-asyncio.run(wait_for_map())
+asyncio.run(waitForMap())
