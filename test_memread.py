@@ -34,7 +34,7 @@ async def relax(hitObjs, firstObject, lastObject, K1, K2):
         for index, obj in enumerate(hitObjs):  # Use enumerate to get the index
             x, y, objTime, objId, holdTime = obj
 
-            if index > realIndex+1:
+            if index > realIndex+1 and realIndex != 10:
                 continue
 
             # Skip already processed objects
@@ -47,7 +47,8 @@ async def relax(hitObjs, firstObject, lastObject, K1, K2):
                 threading.Thread(target=tap, args=(keyToTapWith, holdTime)).start()
                 processedObjects.add(objTime)  # Mark this object as processed
                 keyToTapWith = K1 if keyToTapWith == K2 else K2
-                realIndex += 1
+                if realIndex <= 10:
+                    realIndex += 1
                 break
 
 async def waitForMap():
