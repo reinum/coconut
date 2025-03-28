@@ -2,6 +2,7 @@ from tosu import tosu_connection as tosu
 from tosu import tosu_classes
 from parsers import hitobjs
 
+import threading
 import interception
 import asyncio
 import os
@@ -10,19 +11,27 @@ interception.auto_capture_devices()
 
 conn = tosu.Tosu("ws://localhost:24050/websocket/v2")
 
+def tap(key, holdtime):
+    interception.key_down(key)
+    asyncio.sleep(holdtime / 1000)  # Convert milliseconds to seconds
+    interception.key_up(key)
+
 async def relax(hitObjs, lastObject, K1, K2):
     currentTime = 0
     while currentTime < lastObject:
         currentTime = await conn.PreciseConnection.preciseCurrentTime()
         for obj in hitObjs:
             x, y, objTime, objId, holdTime = obj
-            if (objTime - currentTime) < -10 and (currentTime - objTime) > 10:  # 10ms tolerance:        
-                print(f"Hit object at {x}, {y}")
+            timeDifference = objTime - currentTime
+            if -10 <= timeDifference <= 10:  # 10ms tolerance:        
+                print(f"Hit object at {x}, {y}", K1, K2)
                 if objId == 0:  # Circle
-                    interception.press(K1)
-                    await asyncio.sleep(holdTime / 1000)
-                    interception.release(K1)
-                    break
+                    threading.Thread(target=tap, args=(K1, holdTime)).start()
+                elif objId == 1:  # Slider
+                    pass
+                elif objId == 2:  # Spinner
+                    pass
+                break
 
 async def waitForMap():
     await conn.connectAll()
