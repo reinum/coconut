@@ -208,8 +208,8 @@ class TosuConnection:
         self.data = await self.websocket.recv()
         if not self.data:
             raise ValueError("No data received yet.")
-        if not self.isPrecise:
-            raise ValueError("Cannot get beatmap time from non-precise connection.")
+        if self.isPrecise:
+            raise ValueError("Cannot get beatmap time from precise connection.")
         jsondata = json.loads(self.data)
         return tosu_classes.BeatmapTime(
             live=jsondata["time"]["live"],
