@@ -111,3 +111,15 @@ class BeatmapTime:
     live: int
     firstObject: int
     lastObject: int
+
+@dataclass
+class Play:
+    @dataclass
+    class Mode:
+        number: int
+        name: str
+
+    @dataclass
+    class Mods:
+        number: int
+        name: str

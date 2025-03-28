@@ -216,6 +216,27 @@ class TosuConnection:
             firstObject=jsondata["beatmap"]["time"]["firstObject"],
             lastObject=jsondata["beatmap"]["time"]["lastObject"]
         )
+    
+    async def getPlay(self):
+        self.data = await self.websocket.recv()
+        if not self.data:
+            raise ValueError("No data received yet.")
+        if self.isPrecise:
+            raise ValueError("Cannot get play data from precise connection.")
+        jsondata = json.loads(self.data)
+        play = jsondata["play"]
+        mode = play["mode"]
+        return tosu_classes.Play(
+            mode=tosu_classes.Play.Mode(
+                number=mode["number"],
+                name=mode["name"]
+            ),
+            mods=tosu_classes.Play.Mods(
+                number=play["mods"]["number"],
+                name=play["mods"]["name"]
+            ),
+        )
+
     async def close(self):
         if self.websocket:
             await self.websocket.close()
