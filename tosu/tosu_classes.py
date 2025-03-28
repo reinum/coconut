@@ -105,3 +105,9 @@ class Folders:
     skin: str
     songFolder: str
     beatmap: str
+
+@dataclass
+class BeatmapTime:
+    live: int
+    firstObject: int
+    lastObject: int
