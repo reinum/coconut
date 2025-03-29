@@ -1,3 +1,5 @@
+import io
+
 def findHitObject(bMap, lastObject):
     """
     Parses a beatmap file to extract hit objects and their properties.
@@ -27,7 +29,7 @@ def findHitObject(bMap, lastObject):
     timingPoints = []
     currentSvMultiplier = 1.0  # Default slider velocity multiplier
 
-    with open(bMap, "r") as bMapFile:
+    with io.open(bMap, "r", encoding="utf-8") as bMapFile:
         sections = bMapFile.read().split("\n\n")
     
     # Parse the [Difficulty] section for SliderMultiplier
@@ -88,9 +90,9 @@ def findHitObject(bMap, lastObject):
             if hitObjectsSection.index(line) + 1 < len(hitObjectsSection):  # Check if there is a next object
                 nextParts = hitObjectsSection[hitObjectsSection.index(line) + 1].split(",")
                 nextObjectStart = int(nextParts[2])  # Start time of the next object
-                holdTime = (nextObjectStart - time) * 0.8  # Shorten by 20%
+                holdTime = (nextObjectStart - time) * 0.7  # Shorten by 20%
             else:
-                holdTime = (lastObject - time) * 1.1  # Extend by 10%
+                holdTime = (lastObject - time) * 1  # Shorten by 20%
         elif objType & 8:  # Spinner
             objId = 2
             endTime = int(parts[5])  # End time for spinner
