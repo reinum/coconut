@@ -1,5 +1,5 @@
-from tosu import tosu_classes
-from tosu import tosu_connection as tosu
+from ../tosu import tosu_classes
+from ../tosu import tosu_connection as tosu
 from parsers import hitobjs
 import os
 import asyncio
